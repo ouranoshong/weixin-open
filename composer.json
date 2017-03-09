@@ -1,0 +1,12 @@
+{
+    "require": {
+        "monolog/monolog": "^1.21"
+    },
+
+    "autoload": {
+    	"psr-4": {
+    		"Ouranos\\WeChatOpen\\": "./src"
+    	},
+        "files": ["./src/functions.php"]
+    }
+}
