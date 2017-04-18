@@ -15,11 +15,15 @@ class RequestClient
 
     public $api = 'https://api.weixin.qq.com/cgi-bin/';
 
-    public $appId = TEST_WX_APP_ID;
+    protected $appId = '';
 
-    public $appSecret = TEST_WX_APP_SECRET;
+    protected $appSecret = '';
 
-    protected $expiredIn = 7200;
+    public function __construct($appId, $appSecret)
+    {
+        $this->appId = $appId;
+        $this->appSecret;
+    }
 
     public function execute(RequestInterface $request) {
 
@@ -69,20 +73,22 @@ class RequestClient
         return sys_get_temp_dir() . '/wxAccessToken';
     }
 
-    public function getNormalToken($cache = true, $force = false){
+    public function getNormalToken(){
 
         $tokenFile = $this->tokenCacheFileName();
 
-        if ((!$force) & is_file($tokenFile) && (time() - $this->expiredIn) <= filemtime($tokenFile)) {
+        if (is_file($tokenFile)) {
             return json_decode(file_get_contents($tokenFile));
         }
 
+        return '';
+    }
+
+    public function fetchAndSaveNormalToken() {
+        $tokenFile = $this->tokenCacheFileName();
         $response = $this->execute(new TokenRequest());
-
-        if ($cache) file_put_contents($tokenFile, json_encode($response));
-
+        file_put_contents($tokenFile, json_encode($response));
         return $response;
-
     }
 
     protected function isPostParams(RequestInterface $request)
