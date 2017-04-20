@@ -8,12 +8,11 @@
 
 namespace Ouranos\WeChatOpen;
 
+
 /**
  * Class handleApiParameters
  *
- * @package Ouranos\WeChat
- *
- * @property $params array;
+ * @package Ouranos\WeChatOpen
  */
 trait handleApiParameters
 {
@@ -23,6 +22,9 @@ trait handleApiParameters
         return RequestInterface::PARAMS_FORMAT_ARRAY;
     }
 
+    /**
+     * @return array|string
+     */
     public function apiParameters() {
         switch ($this->parameterFormat()) {
             case RequestInterface::PARAMS_FORMAT_ARRAY:

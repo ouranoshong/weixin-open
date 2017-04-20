@@ -9,8 +9,6 @@
 require __DIR__ . '/../../config.php';
 
 
-$Client = new \Ouranos\WeChatOpen\RequestClient();
+$Token = new \Ouranos\WeChatOpen\NormalAccessTokenRequestClient(APP_ID, APP_SECRET);
 
-$tokenInfo = $Client->getNormalToken();
-
-var_dump($tokenInfo);
+var_dump($Token->get());

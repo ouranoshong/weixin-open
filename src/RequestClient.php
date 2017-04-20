@@ -7,7 +7,6 @@
  */
 
 namespace Ouranos\WeChatOpen;
-use Ouranos\WeChatOpen\NormalToken\TokenRequest;
 
 class RequestClient
 {
@@ -22,7 +21,7 @@ class RequestClient
     public function __construct($appId, $appSecret)
     {
         $this->appId = $appId;
-        $this->appSecret;
+        $this->appSecret = $appSecret;
     }
 
     public function execute(RequestInterface $request) {
@@ -38,16 +37,7 @@ class RequestClient
             $data = '';
         }
 
-        if ($request instanceof TokenRequest) {
-            $this->checkAppId();
-            $this->checkAppSecret();
-            $params['appid'] = $this->appId;
-            $params['secret'] = $this->appSecret;
-
-        } else {
-            $token = $this->getNormalToken();
-            $params = array_merge($params, ['access_token' => $token->access_token]);
-        }
+        $params = array_merge($params, ['access_token' => (new NormalAccessTokenRequestClient($this->appId, $this->appSecret))->get()]);
 
         $uri = $this->api . $request->apiMethod() . '?'.http_build_query($params);
 
@@ -67,28 +57,6 @@ class RequestClient
         }
 
         return json_decode(curl_get($uri));
-    }
-
-    protected function tokenCacheFileName() {
-        return sys_get_temp_dir() . '/wxAccessToken';
-    }
-
-    public function getNormalToken(){
-
-        $tokenFile = $this->tokenCacheFileName();
-
-        if (is_file($tokenFile)) {
-            return json_decode(file_get_contents($tokenFile));
-        }
-
-        return '';
-    }
-
-    public function fetchAndSaveNormalToken() {
-        $tokenFile = $this->tokenCacheFileName();
-        $response = $this->execute(new TokenRequest());
-        file_put_contents($tokenFile, json_encode($response));
-        return $response;
     }
 
     protected function isPostParams(RequestInterface $request)
