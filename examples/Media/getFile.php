@@ -10,9 +10,9 @@
 
 require __DIR__ . '/../../config.php';
 
-$client = new \Ouranos\WeChatOpen\RequestClient();
+$client = new \Ouranos\WeChatOpen\RequestClient(APP_ID, APP_SECRET);
 
 $request = new \Ouranos\WeChatOpen\Media\GetMediaRequest();
-$request->setMediaId('TIQOXyN02IrUM1LDZ16c-JHMY7is9HkkJHcdf8H57KzmGb9HksSlG_LKAECAcnkC');
+$request->setMediaId('Po_B-gzDm67Zavf52NchO_cPFZlKiiyoia7WCQ0Lw6SVW7AZRqo3bG-w4otwaPm4');
 
 var_dump($client->execute($request));

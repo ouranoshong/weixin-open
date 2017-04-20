@@ -8,7 +8,7 @@
 
 require __DIR__ . '/../../config.php';
 
-$Client = new \Ouranos\WeChatOpen\RequestClient();
+$Client = new \Ouranos\WeChatOpen\RequestClient(APP_ID, APP_SECRET);
 
 $request = new \Ouranos\WeChatOpen\Menu\CreateMenuRequest();
 

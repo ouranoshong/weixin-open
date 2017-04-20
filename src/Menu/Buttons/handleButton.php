@@ -14,7 +14,6 @@ use Ouranos\WeChatOpen\Menu\ButtonInterface;
 trait handleButton
 {
     public $name;
-    public $type;
     public $sub_button;
 
     public function addSubButton(ButtonInterface $button) {
